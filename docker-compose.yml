@@ -1,0 +1,13 @@
+version: '3.1'
+services:
+  udrive-postgres:
+    image: postgres:12.3
+    volumes:
+      - ./docker/dump-postgres:/docker-entrypoint-initdb.d/
+    environment:
+      - POSTGRES_USER=udrive
+      - POSTGRES_PASSWORD=udrive
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - 5432:5432
+
