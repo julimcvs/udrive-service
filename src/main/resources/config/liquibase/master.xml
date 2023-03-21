@@ -5,5 +5,6 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <!-- liquibase dev -->
-    <!--    <include file="config/liquibase/changelog/20210216001842_dump_data.xml" relativeToChangelogFile="false" context="dev"/>-->
+    <include file="/config/liquibase/changelog/20232103115300_create_tb_university.xml" relativeToChangelogFile="false" context="dev, test"/>
+    <include file="/config/liquibase/changelog/20232103115900_create_tb_driver.xml" relativeToChangelogFile="false" context="dev, test"/>
 </databaseChangeLog>

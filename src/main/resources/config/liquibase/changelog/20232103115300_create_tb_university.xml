@@ -1,0 +1,24 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="julio.santos" id="20232103115900-01" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <createTable tableName="tb_university" remarks="Table for University">
+            <column name="id" type="bigint" remarks="University identifier">
+                <constraints primaryKey="true" primaryKeyName="pk_university" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)" remarks="University's full name">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(10)" defaultValue="ACTIVE"
+                    remarks="University status. Active or Inactive">
+                <constraints nullable="false" checkConstraint="CHECK ('status' in ('ACTIVE', 'INACTIVE'))"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20232103115900-02" author="julio.santos">
+        <createSequence sequenceName="seq_university" startValue="1"></createSequence>
+    </changeSet>
+</databaseChangeLog>
