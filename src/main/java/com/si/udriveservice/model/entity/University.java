@@ -13,7 +13,6 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 @Getter
@@ -21,7 +20,6 @@ import java.io.Serializable;
 @Entity
 @Table(name = "TB_UNIVERSITY")
 public class University implements Serializable {
-    @Serial
     private static final long serialVersionUID = 1L;
 
     private static final String SEQ_UNIVERSITY = "seq_university";

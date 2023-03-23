@@ -16,7 +16,6 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 @Getter
@@ -24,7 +23,6 @@ import java.io.Serializable;
 @Entity
 @Table(name = "TB_DRIVER")
 public class Driver implements Serializable {
-    @Serial
     private static final long serialVersionUID = 1L;
 
     private static final String SEQ_DRIVER = "SEQ_DRIVER";
@@ -40,6 +38,9 @@ public class Driver implements Serializable {
 
     @Column(name = "cnh", nullable = false)
     private String cnh;
+
+    @Column(name = "cpf", nullable = false)
+    private String cpf;
 
     @Column(name = "registration_number", nullable = false)
     private String registrationNumber;
