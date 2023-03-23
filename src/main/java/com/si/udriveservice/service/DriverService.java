@@ -93,13 +93,13 @@ public class DriverService implements BaseSpecs<Driver> {
 
     private void validateUnicity(DriverDTO dto) {
         Specification<Driver> specs = buildSpecAnd(forEquals(Driver_.cpf, dto.getCpf()), forNotEquals(Driver_.id, dto.getId()));
-        Optional.of(repository.count(specs) > 0).orElseThrow(() -> getException("driver.field.unique.male", "field.cpf"));
+        Optional.of(repository.count(specs) == 0).orElseThrow(() -> getException("driver.field.unique.male", "field.cpf"));
         specs = buildSpecAnd(forEquals(Driver_.registrationNumber, dto.getRegistrationNumber()), forNotEquals(Driver_.id, dto.getId()));
-        Optional.of(repository.count(specs) > 0).orElseThrow(() -> getException("driver.field.unique.male", "field.registration.number"));
+        Optional.of(repository.count(specs) == 0).orElseThrow(() -> getException("driver.field.unique.male", "field.registration.number"));
         specs = buildSpecAnd(forEquals(Driver_.email, dto.getEmail()), forNotEquals(Driver_.id, dto.getId()));
-        Optional.of(repository.count(specs) > 0).orElseThrow(() -> getException("driver.field.unique.male", "field.email"));
+        Optional.of(repository.count(specs) == 0).orElseThrow(() -> getException("driver.field.unique.male", "field.email"));
         specs = buildSpecAnd(forEquals(Driver_.phoneNumber, dto.getPhoneNumber()), forNotEquals(Driver_.id, dto.getId()));
-        Optional.of(repository.count(specs) > 0).orElseThrow(() -> getException("driver.field.unique.male", "field.phone.number"));
+        Optional.of(repository.count(specs) == 0).orElseThrow(() -> getException("driver.field.unique.male", "field.phone.number"));
     }
 
     private void validateUniversity(BasicIdDTO university) {

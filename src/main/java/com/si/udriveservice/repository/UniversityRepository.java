@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UniversityRepository extends JpaRepository<University, Long> {
-    boolean existsByIdAndStatus(Long id, StatusEnum statusEnum);
+    boolean existsByIdAndStatus(Long id, StatusEnum status);
 }
