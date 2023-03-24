@@ -51,6 +51,9 @@ public class Driver implements Serializable {
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
+    @Column(name = "password", nullable = false)
+    private String password;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private StatusEnum status;

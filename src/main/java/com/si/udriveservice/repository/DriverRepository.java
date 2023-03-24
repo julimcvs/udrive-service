@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface DriverRepository extends JpaRepository<Driver, Long>, JpaSpecificationExecutor<Driver> {
+    Optional<Driver> findByEmailAndStatus(String email, StatusEnum status);
     Optional<Driver> findByIdAndStatus(Long id, StatusEnum status);
 }
 

@@ -7,4 +7,7 @@
     <!-- liquibase dev -->
     <include file="/config/liquibase/changelog/20232103115300_create_tb_university.xml" relativeToChangelogFile="false" context="dev, test"/>
     <include file="/config/liquibase/changelog/20232103115900_create_tb_driver.xml" relativeToChangelogFile="false" context="dev, test"/>
+    <include file="/config/liquibase/changelog/20232403081800_insert_tb_university.xml" relativeToChangelogFile="false" context="dev, test"/>
+    <include file="/config/liquibase/changelog/20232403120900_create_tb_token.xml" relativeToChangelogFile="false" context="dev, test"/>
+    <include file="/config/liquibase/changelog/20232403121900_update_tb_driver.xml" relativeToChangelogFile="false" context="dev, test"/>
 </databaseChangeLog>

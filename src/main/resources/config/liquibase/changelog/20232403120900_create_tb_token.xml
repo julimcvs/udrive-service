@@ -1,0 +1,37 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="julio.santos" id="20230203140400-01" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <createTable tableName="tb_token" remarks="Token table">
+            <column name="id" type="bigint" remarks="Token identifier">
+                <constraints primaryKey="true" primaryKeyName="pk_token" nullable="false"/>
+            </column>
+            <column name="token" type="varchar(6)" remarks="Token">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="used" type="varchar(3)" defaultValue="NO" remarks="Check if token is used or not.">
+                <constraints nullable="false"/>
+            </column>
+            <column name="creation_date" type="datetime" remarks="Token creation date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar2(15)" remarks="Token Type"></column>
+            <column name="driver_id" type="bigint" remarks="Table reference of Company">
+                <constraints foreignKeyName="fk_token_driver" references="tb_driver(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="julio.santos" id="20230203140400-02" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <sql>
+            ALTER TABLE "tb_token"
+                ADD CONSTRAINT "ck_token_used" CHECK ("used" = 'YES' OR "used" = 'NO');
+        </sql>
+    </changeSet>
+
+    <changeSet author="julio.santos" id="20230203140400-03">
+        <createSequence sequenceName="seq_token" startValue="1"/>
+    </changeSet>
+</databaseChangeLog>
