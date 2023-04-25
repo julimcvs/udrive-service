@@ -2,6 +2,7 @@ package com.si.udriveservice.service;
 
 import com.si.udriveservice.configuration.BusinessRuleException;
 import com.si.udriveservice.integration.EmailClient;
+import com.si.udriveservice.model.record.EmailContent;
 import com.si.udriveservice.model.record.EmailDTO;
 import com.si.udriveservice.model.record.ResponseEmailDTO;
 import lombok.RequiredArgsConstructor;
@@ -18,16 +19,18 @@ public class EmailService {
     private final EmailClient emailClient;
 
     public void sendValidationEmail(String name, String token, String email) {
-        EmailDTO dto = new EmailDTO(name, String.format("%s/%s", "https://www.google.com/", token), email);
-        // TODO Place front-end url to change password
+        // TODO colocar URL do Front-End
+        String tokenUrl = String.format("%s/%s", "https://www.google.com/", token);
+        EmailContent mailContent = new EmailContent(name, tokenUrl);
+        EmailDTO dto = new EmailDTO(mailContent, email);
         ResponseEmailDTO response = emailClient.sendValidationEmail(dto);
         Optional.of(response.accepted().contains(email)
                         && response.response().contains("250")
                         && response.response().contains("OK"))
-                .orElseThrow(() -> getException("error.sending.email"));
+                .orElseThrow(() -> getException());
     }
 
-    private BusinessRuleException getException(String message) {
-        return new BusinessRuleException(EMAIL_EXCEPTION, message);
+    private BusinessRuleException getException() {
+        return new BusinessRuleException(EMAIL_EXCEPTION, "error.sending.email");
     }
 }

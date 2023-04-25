@@ -3,6 +3,7 @@ package com.si.udriveservice.service;
 import com.si.udriveservice.configuration.BusinessRuleException;
 import com.si.udriveservice.model.entity.Driver;
 import com.si.udriveservice.model.entity.Token;
+import com.si.udriveservice.model.entity.User;
 import com.si.udriveservice.model.enums.TokenTypeEnum;
 import com.si.udriveservice.model.enums.YesNoEnum;
 import com.si.udriveservice.repository.TokenRepository;
@@ -16,7 +17,6 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class TokenService {
     private static final Integer TOKEN_MAX_SIZE = 6;
     private static final String TOKEN_EXCEPTION = "token.exception";
@@ -37,6 +37,16 @@ public class TokenService {
         token.setUsed(YesNoEnum.NO);
         token.setDriver(driver);
         token.setType(TokenTypeEnum.DRIVER);
+        token = repository.save(token);
+        return token.getTokenCode();
+    }
+
+    public String generateTokenForUser(User user) {
+        Token token = new Token();
+        token.setTokenCode(RandomStringUtils.randomAlphanumeric(TOKEN_MAX_SIZE));
+        token.setUsed(YesNoEnum.NO);
+        token.setUser(user);
+        token.setType(TokenTypeEnum.USER);
         token = repository.save(token);
         return token.getTokenCode();
     }
@@ -65,7 +75,9 @@ public class TokenService {
                 }
             }
             case USER -> {
-                // TODO Implementação da validação para usuários do tipo USER
+                if (!StringUtils.equals(entity.getUser().getEmail(), email)) {
+                    throw getTokenException("token.email.not.match");
+                }
             }
         }
     }

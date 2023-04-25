@@ -1,0 +1,42 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="julio.santos" id="20232404093900-01" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <createTable tableName="tb_user" remarks="Table for Users">
+            <column name="id" type="bigint" remarks="User identifier">
+                <constraints primaryKey="true" primaryKeyName="pk_user" nullable="false"/>
+            </column>
+            <column name="password" type="varchar2(100)" remarks="User's password">
+                <constraints nullable="false"/>
+            </column>
+            <column name="full_name" type="varchar(100)" remarks="User's full name">
+                <constraints nullable="false"/>
+            </column>
+            <column name="registration_number" type="varchar(20)" remarks="User's University registration number">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cpf" type="varchar(11)" remarks="User's CPF">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(100)" remarks="User's email">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="varchar(11)" remarks="User's number">
+                <constraints nullable="false"/>
+            </column>
+            <column name="university_id" type="bigint" remarks="University the user is registered in">
+                <constraints foreignKeyName="fk_user_university" references="tb_university(id)"/>
+            </column>
+            <column name="status" type="varchar(10)" defaultValue="ACTIVE"
+                    remarks="User status. Active or Inactive">
+                <constraints nullable="false" checkConstraint="CHECK ('status' in ('ACTIVE', 'INACTIVE'))"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20232404093900-02" author="julio.santos">
+        <createSequence sequenceName="seq_user" startValue="1"/>
+    </changeSet>
+</databaseChangeLog>
