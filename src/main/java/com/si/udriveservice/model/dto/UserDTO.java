@@ -49,4 +49,6 @@ public class UserDTO implements Serializable {
     @NotBlank
     @Max(99999999999L)
     private String phoneNumber;
+
+    private String jwt;
 }
