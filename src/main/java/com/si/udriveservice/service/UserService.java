@@ -1,9 +1,11 @@
 package com.si.udriveservice.service;
 
 import com.si.udriveservice.configuration.BusinessRuleException;
+import com.si.udriveservice.configuration.security.JwtService;
 import com.si.udriveservice.model.dto.BasicIdDTO;
 import com.si.udriveservice.model.dto.PasswordDTO;
 import com.si.udriveservice.model.dto.UserDTO;
+import com.si.udriveservice.model.entity.Role;
 import com.si.udriveservice.model.entity.User;
 import com.si.udriveservice.model.entity.User_;
 import com.si.udriveservice.model.enums.StatusEnum;
@@ -15,7 +17,13 @@ import com.si.udriveservice.service.utils.ServiceUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,9 +31,10 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+@Primary
 @Transactional(readOnly = true)
-public class UserService implements BaseSpecs<User> {
+@RequiredArgsConstructor(onConstructor = @__(@Lazy))
+public class UserService implements BaseSpecs<User>, UserDetailsService {
     public static final Integer PASSWORD_LENGHT = 6;
     public static final String USER_EXCEPTION = "user.exception";
     public static final String ENTITY_NOT_FOUND = "entity.not.found.male";
@@ -36,6 +45,8 @@ public class UserService implements BaseSpecs<User> {
     private final UniversityService universityService;
     private final EmailService emailService;
     private final TokenService tokenService;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     @Transactional
     public void deleteById(Long id) {
@@ -53,6 +64,12 @@ public class UserService implements BaseSpecs<User> {
                 .orElseThrow(() -> getException(ENTITY_NOT_FOUND, USER));
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return repository.findByEmailAndStatus(username, StatusEnum.ACTIVE)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+    }
+
     @Transactional
     public UserDTO save(UserDTO dto) {
         validateDto(dto);
@@ -62,10 +79,15 @@ public class UserService implements BaseSpecs<User> {
             return updateEntity(dto, entity, savedEntity);
         }
         entity.setStatus(StatusEnum.ACTIVE);
-        entity.setPassword(RandomStringUtils.random(PASSWORD_LENGHT, true, true));
+        entity.setRole(Role.USER);
+        entity.setPassword(passwordEncoder.encode(
+                RandomStringUtils.random(PASSWORD_LENGHT, true, true)));
         entity = repository.save(entity);
         emailService.sendValidationEmail(entity.getFullName(), tokenService.generateTokenForUser(entity), entity.getEmail());
-        return mapper.toDto(entity);
+        var jwtToken = jwtService.generateToken(entity);
+        UserDTO returnDto = mapper.toDto(entity);
+        returnDto.setJwt(jwtToken);
+        return returnDto;
     }
 
     @Transactional
@@ -73,9 +95,12 @@ public class UserService implements BaseSpecs<User> {
         User entity = repository.findByEmailAndStatus(dto.getEmail(), StatusEnum.ACTIVE)
                 .orElseThrow(() -> getException(ENTITY_NOT_FOUND, USER));
         validatePasswordDto(dto);
-        entity.setPassword(dto.getPassword());
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         tokenService.validateToken(dto.getToken(), entity.getEmail(), TokenTypeEnum.USER);
-        return mapper.toDto(repository.save(entity));
+        var jwt = jwtService.generateToken(entity);
+        UserDTO userDTO = mapper.toDto(repository.save(entity));
+        userDTO.setJwt(jwt);
+        return userDTO;
     }
 
     private User findSavedEntity(Long id) {
@@ -97,6 +122,7 @@ public class UserService implements BaseSpecs<User> {
         entity.setCpf(savedEntity.getCpf());
         entity.setStatus(savedEntity.getStatus());
         entity.setPassword(savedEntity.getPassword());
+        entity.setRole(savedEntity.getRole());
         if (Objects.equals(savedEntity.getUniversity().getId(),
                 dto.getUniversity().getId())) {
             entity.setRegistrationNumber(savedEntity.getRegistrationNumber());
