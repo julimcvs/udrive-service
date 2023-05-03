@@ -13,4 +13,5 @@
     <include file="/config/liquibase/changelog/20232404093900_create_tb_user.xml" relativeToChangelogFile="false" context="dev, test"/>
     <include file="/config/liquibase/changelog/20232404095300_update_tb_token.xml" relativeToChangelogFile="false" context="dev, test"/>
     <include file="/config/liquibase/changelog/20232804153400_update_tb_user.xml" relativeToChangelogFile="false" context="dev, test"/>
+    <include file="/config/liquibase/changelog/20230205214900_create_tb_request.xml" relativeToChangelogFile="false" context="dev, test"/>
 </databaseChangeLog>

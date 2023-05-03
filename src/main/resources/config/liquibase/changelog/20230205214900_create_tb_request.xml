@@ -1,0 +1,35 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="julio.santos" id="20230205214900-01" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <createTable tableName="tb_request" remarks="Table for Requests">
+            <column name="id" type="bigint" remarks="Request identifier" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_request" nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint" remarks="Reference to User Identifier">
+                <constraints foreignKeyName="fk_request_user" references="tb_user(id)" nullable="false"/>
+            </column>
+            <column name="driver_id" type="bigint" remarks="Reference to Driver Identifier">
+                <constraints foreignKeyName="fk_request_driver" references="tb_driver(id)" nullable="false"/>
+            </column>
+            <column name="origin" type="varchar(100)" remarks="User's origin">
+                <constraints nullable="false"/>
+            </column>
+            <column name="destination" type="varchar(100)" remarks="User's destination">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scheduled_time" type="timestamp" remarks="Ride's scheduled time">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="numeric(10,2)" remarks="Price of the ride">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(10)" defaultValue="ACTIVE"
+                    remarks="Request status. Pending, Accepted or Finished">
+                <constraints nullable="false" checkConstraint="CHECK ('status' in ('PENDING', 'ACCEPTED', 'FINISHED'))"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
