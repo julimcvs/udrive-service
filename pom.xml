@@ -22,6 +22,7 @@
         <lombok-mapstruct-binding.version>0.1.0</lombok-mapstruct-binding.version>
         <spring-cloud.version>2022.0.1</spring-cloud.version>
         <openfeign.version>4.0.1</openfeign.version>
+        <springboot2.aws.version>1.9.3</springboot2.aws.version>
     </properties>
     <dependencyManagement>
                 <dependencies>
@@ -166,12 +167,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
+                <excludes>
+                    <exclude>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok</artifactId>
+                    </exclude>
+                </excludes>
                 </configuration>
             </plugin>
             <plugin>

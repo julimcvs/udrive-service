@@ -5,12 +5,13 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <!-- liquibase dev -->
-    <include file="/config/liquibase/changelog/20232103115300_create_tb_university.xml" relativeToChangelogFile="false" context="dev, test"/>
-    <include file="/config/liquibase/changelog/20232103115900_create_tb_driver.xml" relativeToChangelogFile="false" context="dev, test"/>
-    <include file="/config/liquibase/changelog/20232403081800_insert_tb_university.xml" relativeToChangelogFile="false" context="dev, test"/>
-    <include file="/config/liquibase/changelog/20232403120900_create_tb_token.xml" relativeToChangelogFile="false" context="dev, test"/>
-    <include file="/config/liquibase/changelog/20232403121900_update_tb_driver.xml" relativeToChangelogFile="false" context="dev, test"/>
-    <include file="/config/liquibase/changelog/20232404093900_create_tb_user.xml" relativeToChangelogFile="false" context="dev, test"/>
-    <include file="/config/liquibase/changelog/20232404095300_update_tb_token.xml" relativeToChangelogFile="false" context="dev, test"/>
-    <include file="/config/liquibase/changelog/20232804153400_update_tb_user.xml" relativeToChangelogFile="false" context="dev, test"/>
+    <include file="/config/liquibase/changelog/20232103115300_create_tb_university.xml" relativeToChangelogFile="false" context="dev, test, prod"/>
+    <include file="/config/liquibase/changelog/20232103115900_create_tb_driver.xml" relativeToChangelogFile="false" context="dev, test, prod"/>
+    <include file="/config/liquibase/changelog/20232403081800_insert_tb_university.xml" relativeToChangelogFile="false" context="dev, test, prod"/>
+    <include file="/config/liquibase/changelog/20232403120900_create_tb_token.xml" relativeToChangelogFile="false" context="dev, test, prod"/>
+    <include file="/config/liquibase/changelog/20232403121900_update_tb_driver.xml" relativeToChangelogFile="false" context="dev, test, prod"/>
+    <include file="/config/liquibase/changelog/20232404093900_create_tb_user.xml" relativeToChangelogFile="false" context="dev, test, prod"/>
+    <include file="/config/liquibase/changelog/20232404095300_update_tb_token.xml" relativeToChangelogFile="false" context="dev, test, prod"/>
+    <include file="/config/liquibase/changelog/20232804153400_update_tb_user.xml" relativeToChangelogFile="false" context="dev, test, prod"/>
+    <include file="/config/liquibase/changelog/20230205214900_create_tb_request.xml" relativeToChangelogFile="false" context="dev, test, prod"/>
 </databaseChangeLog>

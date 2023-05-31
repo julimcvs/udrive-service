@@ -25,6 +25,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/auth/**")
                 .permitAll()
+                .requestMatchers("/university")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
