@@ -1,7 +1,6 @@
 package com.si.udriveservice.controller;
 
 import com.si.udriveservice.configuration.GlobalAdviceController;
-import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
