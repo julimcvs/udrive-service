@@ -80,8 +80,9 @@ public class UserService implements BaseSpecs<User>, UserDetailsService {
         }
         entity.setStatus(StatusEnum.ACTIVE);
         entity.setRole(Role.USER);
-        entity.setPassword(passwordEncoder.encode(
-                RandomStringUtils.random(PASSWORD_LENGHT, true, true)));
+        String senha = RandomStringUtils.random(PASSWORD_LENGHT, true, true);
+        entity.setPassword(passwordEncoder.encode(senha));
+        System.out.println("SENHA GERADA: " + senha);
         entity = repository.save(entity);
         emailService.sendValidationEmail(entity.getFullName(), tokenService.generateTokenForUser(entity), entity.getEmail());
         var jwtToken = jwtService.generateToken(entity);

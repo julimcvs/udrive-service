@@ -3,7 +3,10 @@ package com.si.udriveservice.integration;
 import com.si.udriveservice.model.record.EmailDTO;
 import com.si.udriveservice.model.record.ResponseEmailDTO;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+
+@CrossOrigin
 
 @FeignClient(name = "udrive-email", url = "${email-service.url}")
 public interface EmailClient {
