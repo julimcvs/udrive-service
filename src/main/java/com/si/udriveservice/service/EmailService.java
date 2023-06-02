@@ -18,10 +18,8 @@ public class EmailService {
     public static final String EMAIL_EXCEPTION = "email.exception";
     private final EmailClient emailClient;
 
-    public void sendValidationEmail(String name, String token, String email) {
-        // TODO colocar URL do Front-End
-        String tokenUrl = String.format("%s/%s", "https://www.google.com/", token);
-        EmailContent mailContent = new EmailContent(name, tokenUrl);
+    public void sendValidationEmail(String name, String password, String email) {
+        EmailContent mailContent = new EmailContent(name, password);
         EmailDTO dto = new EmailDTO(mailContent, email);
         ResponseEmailDTO response = emailClient.sendValidationEmail(dto);
         Optional.of(response.accepted().contains(email)

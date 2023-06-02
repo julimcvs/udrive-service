@@ -80,10 +80,10 @@ public class UserService implements BaseSpecs<User>, UserDetailsService {
         }
         entity.setStatus(StatusEnum.ACTIVE);
         entity.setRole(Role.USER);
-        entity.setPassword(passwordEncoder.encode(
-                RandomStringUtils.random(PASSWORD_LENGHT, true, true)));
+        String password =  RandomStringUtils.random(PASSWORD_LENGHT, true, true);
+        entity.setPassword(passwordEncoder.encode(password));
         entity = repository.save(entity);
-        emailService.sendValidationEmail(entity.getFullName(), tokenService.generateTokenForUser(entity), entity.getEmail());
+        emailService.sendValidationEmail(entity.getFullName(), password, entity.getEmail());
         var jwtToken = jwtService.generateToken(entity);
         UserDTO returnDto = mapper.toDto(entity);
         returnDto.setJwt(jwtToken);
